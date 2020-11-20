@@ -8,3 +8,37 @@ spring:
     prefix: classpath:/templates/
     # mode: HTML  #严格的HTML语法模式
     suffix: .html
+
+  jpa:
+    database: postgresql
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+    open-in-view: false
+
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/sso
+    username: sso
+    password: sso_pass
+    driver-class-name: org.postgresql.Driver
+
+# 自定义
+lettuce:
+  # 单机配置
+  single:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 20
+  # 连接池配置
+  pool:
+    max-idle: 10
+    min-idle: 0
+    max-total: 15
+    max-wait-mills: 1000
+    test-on-borrow: true
+    test-on-return: false
+    test-on-create: false

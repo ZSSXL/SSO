@@ -9,8 +9,13 @@
 <body>
 
 <!-- 开始 -->
-<div>
+<div class="container">
     <h2>APPLICATION-ONE</h2>
+    <div class="row justify-content-md-center">
+        <div class="col-md-2">
+            <button id="app-one" class="btn btn-lg btn-outline-primary">确定</button>
+        </div>
+    </div>
 </div>
 <!-- 结束 -->
 
@@ -18,6 +23,26 @@
 <!-- jquery -->
 <script th:src="@{js/jquery.min.js}"></script>
 <script th:src="@{bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript">
+    $("#app-one").click(function () {
+        let content = "APPLICATION-ONE";
+        appOne(content);
+    })
+
+    function appOne(data) {
+        $.ajax({
+            url: "http://localhost:8881/one",
+            contentType: "application/json;charset=utf-8",
+            type: "post",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                console.log(result);
+                alert(result.data);
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

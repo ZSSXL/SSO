@@ -20,10 +20,15 @@
         <jdk.version>1.8</jdk.version>
         <jackson.version>2.10.0</jackson.version>
         <lombok.version>1.18.12</lombok.version>
-        <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
+        <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
         <jjwt.version>0.9.1</jjwt.version>
         <java-jwt.version>3.10.0</java-jwt.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
+        <postgresql.version>42.2.8</postgresql.version>
+        <lettuce.version>5.3.1.RELEASE</lettuce.version>
+        <commons-pool2.version>2.8.0</commons-pool2.version>
+        <dozer.version>5.5.1</dozer.version>
+        <protobuf.version>3.13.0</protobuf.version>
     </properties>
 
     <dependencyManagement>
@@ -37,6 +42,11 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
@@ -73,6 +83,19 @@
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring-boot.version}</version>
+                <optional>true</optional>
+            </dependency>
+            <!-- thymeleaf实现热部署 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
             <!-- Spring Boot -->
 
             <!-- JWT 相关依赖 -->
@@ -91,6 +114,32 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
+
+            <!-- 关系型数据库 PG -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+
+            <!-- 非关系型数据库 Redis -->
+            <dependency>
+                <groupId>io.lettuce</groupId>
+                <artifactId>lettuce-core</artifactId>
+                <version>${lettuce.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+            <!-- 序列化工具 -->
         </dependencies>
     </dependencyManagement>
 

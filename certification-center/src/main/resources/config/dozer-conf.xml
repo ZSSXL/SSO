@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://dozer.sourceforge.net"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <!--如果字段名称相同，则不需要配置这个mapping
+    <mapping>
+        &lt;!&ndash;对应的实体和要转换成的VO&ndash;&gt;
+        <class-a>com.zss.sso.entity.User</class-a>
+        <class-b>com.zss.sso.entity.dto.UserDTO</class-b>
+    </mapping>-->
+</mappings>
