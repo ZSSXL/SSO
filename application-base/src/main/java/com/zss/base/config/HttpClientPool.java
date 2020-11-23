@@ -1,5 +1,6 @@
 package com.zss.base.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.Consts;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.config.CookieSpecs;
@@ -21,6 +22,7 @@ import java.util.Properties;
  * @date 2020/11/23 10:57
  * @desc HttpClient连接池
  */
+@Slf4j
 public class HttpClientPool {
 
     private static final int SOCKET_TIMEOUT;
@@ -37,8 +39,7 @@ public class HttpClientPool {
         try {
             properties.load(resourceAsStream);
         } catch (IOException e) {
-            // todo 通过日志打印异常信息
-            e.printStackTrace();
+            log.error("加载配置文件失败: [{}]", e.getMessage());
         }
         SOCKET_TIMEOUT = Integer.parseInt(properties.getProperty("http.socket_timeout"));
         CONNECT_TIMEOUT = Integer.parseInt(properties.getProperty("http.connect_timeout"));

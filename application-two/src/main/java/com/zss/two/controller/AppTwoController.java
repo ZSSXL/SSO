@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author zhoushs@dist.com.cn
  * @date 2020/11/20 16:58
@@ -25,7 +28,8 @@ public class AppTwoController {
     }
 
     @PostMapping
-    public ServerResponse<String> appTwo(@RequestBody String content) {
+    public ServerResponse<String> appTwo(@RequestBody String content, HttpServletResponse response) {
+        response.addCookie(new Cookie("name", "vale"));
         String result = appTwoService.appTwo(content);
         return ServerResponse.createBySuccess(result);
     }

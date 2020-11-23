@@ -31,6 +31,8 @@
         <protobuf.version>3.13.0</protobuf.version>
         <http-client.version>4.5.12</http-client.version>
         <fastjson.version>1.2.62</fastjson.version>
+        <aspectj.version>1.9.4</aspectj.version>
+        <java-servlet.version>4.0.1</java-servlet.version>
     </properties>
 
     <dependencyManagement>
@@ -152,6 +154,19 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${java-servlet.version}</version>
+                <scope>provided</scope>
             </dependency>
 
         </dependencies>
