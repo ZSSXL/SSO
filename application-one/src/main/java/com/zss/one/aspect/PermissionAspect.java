@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
  * @desc 用户请求拦截
  */
 @Slf4j
-@Aspect
+// @Aspect
 @Component
 public class PermissionAspect {
 
-    @Around(value = "@annotation(com.zss.base.annotation.RequiredPermission)")
+    // @Around(value = "@annotation(com.zss.base.annotation.RequiredPermission)")
     public Object aroundPermission(ProceedingJoinPoint joinPoint) throws Throwable {
+
         // 通过 joinPoint.proceed();
         return null;
     }
