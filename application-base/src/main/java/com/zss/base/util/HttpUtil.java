@@ -98,7 +98,7 @@ public class HttpUtil {
      *
      * @param uri     uri
      * @param params  请求参数
-     * @param cookies 自定义Cookies
+     * @param cookies 自定义Cookies,使用{@link MapUtil}工具组装cookies参数
      * @return response
      */
     public static CloseableHttpResponse doGet(String uri, Map<String, String> params, Map<String, String> cookies) {
@@ -121,9 +121,9 @@ public class HttpUtil {
         for (Map.Entry<String, String> cookie : cookies.entrySet()) {
             cookieStore.addCookie(new BasicClientCookie(cookie.getKey(), cookie.getValue()));
         }
-        context.setCookieStore(cookieStore);
-
         HttpGet httpGet = new HttpGet(uri);
+        // 在header中直接设置Cookie
+        httpGet.addHeader("Cookie", cookieStore.toString());
 
         log.info("Executing Request [{}]", httpGet.getURI());
         try {
@@ -139,7 +139,7 @@ public class HttpUtil {
      *
      * @param uri         uri
      * @param requestBody 参数
-     * @param cookies     自定义Cookies
+     * @param cookies 自定义Cookies,使用{@link MapUtil}工具组装cookies参数
      * @return response
      */
     public static CloseableHttpResponse doPost(String uri, Object requestBody, Map<String, String> cookies) {
@@ -163,7 +163,8 @@ public class HttpUtil {
             for (Map.Entry<String, String> cookie : cookies.entrySet()) {
                 cookieStore.addCookie(new BasicClientCookie(cookie.getKey(), cookie.getValue()));
             }
-            context.setCookieStore(cookieStore);
+            // 在header中直接设置Cookie
+            httpPost.addHeader("Cookie", cookieStore.toString());
 
             log.info("Executing Request [{}]", httpPost.getURI());
             try {
