@@ -5,6 +5,7 @@
     <title>单点登录 - APP-ONE</title>
 
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{images/favicon.ico}" rel="shortcut icon">
 </head>
 <body>
 
@@ -31,16 +32,29 @@
 
     function appOne(data) {
         $.ajax({
-            url: "http://localhost:8881/one",
+            url: "http://192.168.2.125:8881/one",
             contentType: "application/json;charset=utf-8",
             type: "post",
             dataType: "json",
             data: JSON.stringify(data),
             success: function (result) {
                 console.log(result);
-                alert(result.data);
+                analysisResult(result);
             }
         });
+    }
+
+    /**
+     * 解析数据
+     * @param result
+     */
+    function analysisResult(result) {
+        /*if (result.status === "2") {
+            window.location.href = "/login.html";
+        } else {
+            alert(result.msg);
+        }*/
+        window.location.href = "/login";
     }
 </script>
 

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>单点登录 - 用户登录</title>
+    <title>APP TWO LOGIN</title>
 
     <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{images/favicon.ico}" rel="shortcut icon">
@@ -52,7 +52,7 @@
             url: "http://192.168.2.125:8880/certificate/login/" + redirect,
             contentType: "application/json;charset=utf-8",
             type: "post",
-            // dataType: "json",
+            dataType: "json",
             data: JSON.stringify(data),
             success: function (result) {
                 analysisResult(result);

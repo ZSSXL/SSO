@@ -11,4 +11,9 @@ public class Constant {
      * redis插入数据成功
      */
     public static final String SET_OK = "OK";
+
+    /**
+     * Redis有效期 - 30分钟（单位秒）
+     */
+    public static final long EFFECTIVE_TIME = 60L * 30L;
 }

@@ -1,5 +1,6 @@
 package com.zss.two.controller;
 
+import com.zss.base.annotation.RequiredPermission;
 import com.zss.base.response.ServerResponse;
 import com.zss.two.service.AppTwoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author zhoushs@dist.com.cn
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/two")
-public class AppTwoController {
+public class AppTwoController extends BaseController {
 
     private final AppTwoService appTwoService;
 
@@ -28,9 +28,10 @@ public class AppTwoController {
     }
 
     @PostMapping
-    public ServerResponse<String> appTwo(@RequestBody String content, HttpServletResponse response) {
-        response.addCookie(new Cookie("name", "vale"));
+    @RequiredPermission
+    public ServerResponse<String> appTwo(@RequestBody String content, HttpServletRequest request) {
         String result = appTwoService.appTwo(content);
+        System.out.println("SessionId: [" + request.getSession().getId() + "]");
         return ServerResponse.createBySuccess(result);
     }
 }

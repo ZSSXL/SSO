@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/certificate")
-public class CertificationController {
+public class CertificationController extends BaseController {
 
     private final UserService userService;
     private final RedisUtil redisUtil;
@@ -53,7 +52,11 @@ public class CertificationController {
         String ticket = request.getSession().getId();
         // 3. 保存用户信息SessionGeneralConverter
         String userSerializable = SerializableUtil.serializable(userDTO);
-        String setResult = redisUtil.set(ticket, userSerializable);
+        // 4. 获取发送请求的客户端主机的IP
+        String remoteAddr = request.getRemoteAddr();
+        System.out.println("RemoteAddr IP: [" + remoteAddr + "]");
+
+        String setResult = redisUtil.set(ticket, userSerializable, Constant.EFFECTIVE_TIME);
         // 4. 返回重定向地址和证书 - url & ticket
         if (Constant.SET_OK.equals(setResult)) {
             Map<String, String> map = new HashMap<>(2);
@@ -91,5 +94,23 @@ public class CertificationController {
             }
             return ServerResponse.createByErrorMessage("该用户未登录");
         }
+    }
+
+    /**
+     * 测试
+     *
+     * @param content content
+     * @param request request
+     * @return anything
+     */
+    @PostMapping("/test")
+    public ServerResponse<String> test(@RequestBody String content, HttpServletRequest request) {
+        String cookie = request.getHeader("Cookie");
+        System.out.println("=======================================");
+        System.out.println("Cookie: " + cookie);
+        System.out.println("Session: " + request.getSession().getId());
+        System.out.println("Content: [" + content + "]");
+        System.out.println("=======================================");
+        return ServerResponse.createBySuccess(content);
     }
 }
