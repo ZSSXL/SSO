@@ -31,11 +31,16 @@
     })
 
     function appOne(data) {
+        let ticket = sessionStorage.getItem("sso_ticket");
+        console.log("Ticket: " + ticket);
         $.ajax({
             url: "http://192.168.2.125:8881/one",
             contentType: "application/json;charset=utf-8",
             type: "post",
             dataType: "json",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("ticket", ticket);
+            },
             data: JSON.stringify(data),
             success: function (result) {
                 console.log(result);
@@ -49,12 +54,11 @@
      * @param result
      */
     function analysisResult(result) {
-        /*if (result.status === "2") {
+        if (result.status === 2) {
             window.location.href = "/login.html";
         } else {
-            alert(result.msg);
-        }*/
-        window.location.href = "/login";
+            alert(result);
+        }
     }
 </script>
 

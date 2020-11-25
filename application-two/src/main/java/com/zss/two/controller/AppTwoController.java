@@ -1,6 +1,7 @@
 package com.zss.two.controller;
 
 import com.zss.base.annotation.RequiredPermission;
+import com.zss.base.comment.Constant;
 import com.zss.base.response.ServerResponse;
 import com.zss.two.service.AppTwoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class AppTwoController extends BaseController {
     @RequiredPermission
     public ServerResponse<String> appTwo(@RequestBody String content, HttpServletRequest request) {
         String result = appTwoService.appTwo(content);
-        System.out.println("SessionId: [" + request.getSession().getId() + "]");
+        System.out.println("Ticket In APP TWO: [" + request.getHeader(Constant.TICKET) + "]");
         return ServerResponse.createBySuccess(result);
     }
 }

@@ -16,4 +16,9 @@ public class Constant {
      * Redis有效期 - 30分钟（单位秒）
      */
     public static final long EFFECTIVE_TIME = 60L * 30L;
+
+    /**
+     * 认证
+     */
+    public static final String TICKET = "ticket";
 }

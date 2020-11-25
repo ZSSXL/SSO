@@ -1,6 +1,7 @@
 package com.zss.one.controller;
 
 import com.zss.base.annotation.RequiredPermission;
+import com.zss.base.comment.Constant;
 import com.zss.base.response.ServerResponse;
 import com.zss.one.service.AppOneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class AppOneController extends BaseController {
     @RequiredPermission
     public ServerResponse<String> appOne(@RequestBody String content, HttpServletRequest request) {
         String result = appOneService.appOne(content);
-        System.out.println("SessionId: [" + request.getSession().getId() + "]");
+        System.out.println("Ticket In APP ONE: [" + request.getHeader(Constant.TICKET) + "]");
         return ServerResponse.createBySuccess(result);
     }
 

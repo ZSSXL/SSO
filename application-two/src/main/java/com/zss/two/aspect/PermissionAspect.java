@@ -1,10 +1,10 @@
 package com.zss.two.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zss.base.comment.Constant;
 import com.zss.base.response.ResponseCode;
 import com.zss.base.response.ServerResponse;
 import com.zss.base.util.HttpUtil;
-import com.zss.base.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -18,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * @author zhoushs@dist.com.cn
@@ -35,16 +34,10 @@ public class PermissionAspect {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (sra != null) {
             HttpServletRequest request = sra.getRequest();
-            System.out.println("RequestURL: 【" + request.getRequestURL() + "】");
-            System.out.println("APP ONE SessionID: " + request.getSession().getId());
-            String uri = "http://localhost:8880/certificate/test";
-            String content = "The world not enough";
-            HashMap<String, String> cookiesMap = MapUtil.create(
-                    "PING", "PONG",
-                    "APP", "TWO");
-            CloseableHttpResponse closeableHttpResponse = HttpUtil.doPost(uri, content, cookiesMap);
+            String ticket = request.getHeader(Constant.TICKET);
+            String uri = "http://192.168.2.125:8880/certificate";
+            CloseableHttpResponse closeableHttpResponse = HttpUtil.doPost(uri, ticket);
             if (closeableHttpResponse != null) {
-                System.out.println("----------------------------------------");
                 System.out.println("HttpStatus: " + closeableHttpResponse.getStatusLine());
                 try {
                     HttpEntity entity = closeableHttpResponse.getEntity();

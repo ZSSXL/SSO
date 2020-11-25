@@ -1,10 +1,10 @@
 package com.zss.one.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zss.base.comment.Constant;
 import com.zss.base.response.ResponseCode;
 import com.zss.base.response.ServerResponse;
 import com.zss.base.util.HttpUtil;
-import com.zss.base.util.MapUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -15,13 +15,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * @author zhoushs@dist.com.cn
@@ -38,24 +34,15 @@ public class PermissionAspect {
         ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (sra != null) {
             HttpServletRequest request = sra.getRequest();
-            HttpServletResponse response = sra.getResponse();
-            System.out.println("APP ONE SessionID: " + request.getSession().getId());
-            // 用户验证
-            String uri = "http://localhost:8880/certificate/test";
-            String content = "The world not enough";
-            HashMap<String, String> cookiesMap = MapUtil.create(
-                    "PING", "PONG",
-                    "APP", "ONE");
-            CloseableHttpResponse closeableHttpResponse = HttpUtil.doPost(uri, content, cookiesMap);
+            String ticket = request.getHeader(Constant.TICKET);
+            String uri = "http://192.168.2.125:8880/certificate";
+            CloseableHttpResponse closeableHttpResponse = HttpUtil.doPost(uri, ticket);
             if (closeableHttpResponse != null) {
-                System.out.println("----------------------------------------");
                 System.out.println("HttpStatus: " + closeableHttpResponse.getStatusLine());
                 try {
                     HttpEntity entity = closeableHttpResponse.getEntity();
                     JSONObject jsonObject = JSONObject.parseObject(EntityUtils.toString(entity));
-                    String data = jsonObject.getString("data");
                     String status = jsonObject.getString("status");
-                    System.out.println("Status: [" + status + "] Data: [" + data + "]");
                     if (ResponseCode.SUCCESS.getCode() == Integer.parseInt(status)) {
                         // 通过
                         return joinPoint.proceed();
