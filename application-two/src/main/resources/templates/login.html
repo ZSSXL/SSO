@@ -41,7 +41,6 @@
         let password = $("#password").val();
 
         let data = {username, password};
-        console.log(data);
         login(data);
     });
 
@@ -62,8 +61,8 @@
     /* 解析数据 */
     function analysisResult(result) {
         if (result.status === 0) {
-            // document.cookie = "sso=sso_pass;path=/*/"
-            sessionStorage.setItem("sso_ticket", result.data);
+            document.cookie = "sso_ticket=" + result.data + ";pass=/";
+            document.cookit = "domain_test=domain_test;path=/;domain=.baidu.com";
             alert("登录成功");
         } else {
             $("#password").val("").focus();

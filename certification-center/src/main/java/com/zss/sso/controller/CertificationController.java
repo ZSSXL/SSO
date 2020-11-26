@@ -10,13 +10,11 @@ import com.zss.sso.util.SerializableUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author zhoushs@dist.com.cn
@@ -47,13 +45,18 @@ public class CertificationController extends BaseController {
      */
     @PostMapping("/login")
     public ServerResponse<String> login(@RequestBody LoginDTO login,
-                                        HttpServletRequest request) {
+                                        HttpServletRequest request,
+                                        HttpServletResponse response) {
         // 1. 校验用户
         UserDTO userDTO = userService.checkUser(login);
         // 2. 生成ticket or token
         String ticket = request.getSession().getId();
         // 3. 保存用户信息SessionGeneralConverter
         String userSerializable = SerializableUtil.serializable(userDTO);
+        // 4. 设置Cookie
+        Cookie cookie = new Cookie("sso_token", ticket);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         String setResult = redisUtil.set(ticket, userSerializable, Constant.EFFECTIVE_TIME);
         // 4. 返回重定向地址和证书 - url & ticket
@@ -89,6 +92,18 @@ public class CertificationController extends BaseController {
         } else {
             return ServerResponse.createByError();
         }
+    }
+
+    /**
+     * 获取ticket
+     *
+     * @param ticket ticket
+     * @return String
+     */
+    @GetMapping
+    public ServerResponse<String> getTicket(@RequestHeader(value = "sso_ticket", required = false) String ticket) {
+        System.out.println("Cookie From @RequestHeader: " + ticket);
+        return ServerResponse.createBySuccess();
     }
 
     /**

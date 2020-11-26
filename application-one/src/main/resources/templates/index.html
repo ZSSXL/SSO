@@ -16,6 +16,9 @@
         <div class="col-md-2">
             <button id="app-one" class="btn btn-lg btn-outline-primary">确定</button>
         </div>
+        <div class="col-md-2 offset-md-4">
+            <button id="get-ticket" class="btn btn-lg btn-outline-info">认证（ticket）</button>
+        </div>
     </div>
 </div>
 <!-- 结束 -->
@@ -31,15 +34,14 @@
     })
 
     function appOne(data) {
-        let ticket = sessionStorage.getItem("sso_ticket");
-        console.log("Ticket: " + ticket);
+        let ticket = getCookie("sso_ticket");
         $.ajax({
             url: "http://192.168.2.125:8881/one",
             contentType: "application/json;charset=utf-8",
             type: "post",
             dataType: "json",
             beforeSend: function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("ticket", ticket);
+                XMLHttpRequest.setRequestHeader("sso_ticket", ticket);
             },
             data: JSON.stringify(data),
             success: function (result) {
@@ -59,6 +61,37 @@
         } else {
             alert(result);
         }
+    }
+
+    $("#get-ticket").click(function () {
+        let cookie = getCookie("sso_ticket");
+        $.ajax({
+            withCredentials: true,
+            url: "http://192.168.2.125:8880/certificate",
+            contentType: "application/json;charset=utf-8",
+            type: "GET",
+            beforeSend: function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("sso_ticket", cookie);
+            },
+            success: function (result) {
+                console.log(result);
+            }
+        });
+    });
+
+    /**
+     * 获取cookies
+     * @param cname cookie的name
+     * @return {string} cookie的value
+     */
+    function getCookie(cname) {
+        let name = cname + "=";
+        let ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+        }
+        return "";
     }
 </script>
 

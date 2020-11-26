@@ -20,5 +20,5 @@ public class Constant {
     /**
      * 认证
      */
-    public static final String TICKET = "ticket";
+    public static final String TICKET = "sso_ticket";
 }
